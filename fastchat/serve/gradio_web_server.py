@@ -64,19 +64,17 @@ enable_moderation = False
 use_remote_storage = False
 
 acknowledgment_md = """
-### Terms of Service
+### 服务条款
 
-Users are required to agree to the following terms before using the service:
+用户在使用本服务之前,必须同意以下条款:
 
-The service is a research preview. It only provides limited safety measures and may generate offensive content.
-It must not be used for any illegal, harmful, violent, racist, or sexual purposes.
-Please do not upload any private information.
-The service collects user dialogue data, including both text and images, and reserves the right to distribute it under a Creative Commons Attribution (CC-BY) or a similar license.
+本服务是一个研究预览版。它仅提供有限的安全措施,可能会生成冒犯性内容。不得将其用于任何非法、有害、暴力、种族主义或色情目的。请勿上传任何私人信息。本服务收集用户对话数据,包括文本和图像,并保留根据知识共享署名许可(CC-BY)或类似许可分发这些数据的权利。
 
-#### Please report any bug or issue to our [Discord](https://discord.gg/HSWAKCrnFx)/arena-feedback.
+#### 如发现任何bug或问题,请在我们的 [Discord](https://discord.gg/HSWAKCrnFx)/arena-feedback 频道报告。
 
-### Acknowledgment
-We thank [UC Berkeley SkyLab](https://sky.cs.berkeley.edu/), [Kaggle](https://www.kaggle.com/), [MBZUAI](https://mbzuai.ac.ae/), [a16z](https://www.a16z.com/), [Together AI](https://www.together.ai/), [Hyperbolic](https://hyperbolic.xyz/), [RunPod](https://runpod.io), [Anyscale](https://www.anyscale.com/), [HuggingFace](https://huggingface.co/) for their generous [sponsorship](https://lmsys.org/donations/).
+### 致谢
+
+我们感谢 [加州大学伯克利分校 SkyLab](https://sky.cs.berkeley.edu/), [Kaggle](https://www.kaggle.com/), [MBZUAI](https://mbzuai.ac.ae/), [a16z](https://www.a16z.com/), [Together AI](https://www.together.ai/), [Hyperbolic](https://hyperbolic.xyz/), [RunPod](https://runpod.io), [Anyscale](https://www.anyscale.com/), [HuggingFace](https://huggingface.co/) 的慷慨[赞助](https://lmsys.org/donations/)。
 
 <div class="sponsor-image-about">
     <img src="https://storage.googleapis.com/public-arena-asset/skylab.png" alt="SkyLab">
@@ -587,7 +585,6 @@ def bot_response(
         fout.write(json.dumps(data) + "\n")
     get_remote_logger().log(data)
 
-
 block_css = """
 .prose {
     font-size: 105% !important;
@@ -631,7 +628,7 @@ block_css = """
     display: inline-block;
     width: 7px;
     height: 1em;
-    background-color: black;
+    background-color: #9C27B0;
     vertical-align: middle;
     animation: blink 1s infinite;
 }
@@ -640,7 +637,7 @@ block_css = """
     display: inline-block;
     width: 7px;
     height: 1em;
-    background-color: white;
+    background-color: #E1BEE7;
     vertical-align: middle;
     animation: blink 1s infinite;
 }
@@ -654,15 +651,58 @@ block_css = """
   max-width: 100% !important;
   padding-left: 5% !important;
   padding-right: 5% !important;
+  background-color: #F3E5F5;
 }
 
 a {
-    color: #1976D2; /* Your current link color, a shade of blue */
-    text-decoration: none; /* Removes underline from links */
+    color: #9C27B0;
+    text-decoration: none;
 }
 a:hover {
-    color: #63A4FF; /* This can be any color you choose for hover */
-    text-decoration: underline; /* Adds underline on hover */
+    color: #7B1FA2;
+    text-decoration: underline;
+}
+
+.gradio-container {
+    background-color: #F3E5F5 !important;
+}
+
+.gr-button-primary {
+    background-color: #9C27B0 !important;
+    border-color: #9C27B0 !important;
+    color: #FFFFFF !important;
+}
+
+.gr-button-secondary {
+    background-color: #BA68C8 !important;
+    border-color: #BA68C8 !important;
+    color: #FFFFFF !important;
+}
+
+.dark {
+    background-color: #4A148C !important;
+}
+
+.dark .gr-button-primary {
+    background-color: #9C27B0 !important;
+    border-color: #9C27B0 !important;
+}
+
+.dark .gr-button-secondary {
+    background-color: #BA68C8 !important;
+    border-color: #BA68C8 !important;
+}
+
+.dark .gradio-container {
+    background-color: #4A148C !important;
+}
+
+.dark a {
+    color: #E1BEE7;
+}
+
+.dark a:hover {
+    color: #CE93D8;
 }
 """
 
@@ -770,26 +810,25 @@ def get_model_description_md(models):
 
 def build_about():
     about_markdown = """
-# About Us
-Chatbot Arena is an open-source research project developed by members from [LMSYS](https://lmsys.org) and UC Berkeley [SkyLab](https://sky.cs.berkeley.edu/). Our mission is to build an open platform to evaluate LLMs by human preference in the real-world.
-We open-source our [FastChat](https://github.com/lm-sys/FastChat) project at GitHub and release chat and human feedback dataset. We invite everyone to join us!
+# 关于我们
 
-## Open-source contributors
+聊天机器人竞技场是由清华大学开发的开源研究项目。我们的使命是建立一个开放平台,通过真实世界中的人类偏好来评估大语言模型(LLMs)。我们在 GitHub 上开源了我们的 [FastChat](https://github.com/lm-sys/FastChat) 项目,并发布了对话和人类反馈数据集。我们邀请每个人加入我们!
+
+## 开源贡献者
 - [Wei-Lin Chiang](https://infwinston.github.io/), [Lianmin Zheng](https://lmzheng.net/), [Ying Sheng](https://sites.google.com/view/yingsheng/home), [Lisa Dunlap](https://www.lisabdunlap.com/), [Anastasios Angelopoulos](https://people.eecs.berkeley.edu/~angelopoulos/), [Christopher Chou](https://www.linkedin.com/in/chrisychou), [Tianle Li](https://codingwithtim.github.io/), [Siyuan Zhuang](https://www.linkedin.com/in/siyuanzhuang)
-- Advisors: [Ion Stoica](http://people.eecs.berkeley.edu/~istoica/), [Joseph E. Gonzalez](https://people.eecs.berkeley.edu/~jegonzal/), [Hao Zhang](https://cseweb.ucsd.edu/~haozhang/), [Trevor Darrell](https://people.eecs.berkeley.edu/~trevor/)
+- 顾问: [Ion Stoica](http://people.eecs.berkeley.edu/~istoica/), [Joseph E. Gonzalez](https://people.eecs.berkeley.edu/~jegonzal/), [Hao Zhang](https://cseweb.ucsd.edu/~haozhang/), [Trevor Darrell](https://people.eecs.berkeley.edu/~trevor/)
 
-## Learn more
-- Chatbot Arena [paper](https://arxiv.org/abs/2403.04132), [launch blog](https://lmsys.org/blog/2023-05-03-arena/), [dataset](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md), [policy](https://lmsys.org/blog/2024-03-01-policy/)
-- LMSYS-Chat-1M dataset [paper](https://arxiv.org/abs/2309.11998), LLM Judge [paper](https://arxiv.org/abs/2306.05685)
+## 了解更多
+- 聊天机器人竞技场 [论文](https://arxiv.org/abs/2403.04132), [发布博客](https://lmsys.org/blog/2023-05-03-arena/), [数据集](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md), [政策](https://lmsys.org/blog/2024-03-01-policy/)
+- LMSYS-Chat-1M 数据集 [论文](https://arxiv.org/abs/2309.11998), LLM Judge [论文](https://arxiv.org/abs/2306.05685)
 
-## Contact Us
-- Follow our [X](https://x.com/lmsysorg), [Discord](https://discord.gg/HSWAKCrnFx) or email us at lmsys.org@gmail.com
-- File issues on [GitHub](https://github.com/lm-sys/FastChat)
-- Download our datasets and models on [HuggingFace](https://huggingface.co/lmsys)
+## 联系我们
+- 关注我们的 [X](https://x.com/lmsysorg), [Discord](https://discord.gg/HSWAKCrnFx) 或发邮件至 lmsys.org@gmail.com
+- 在 [GitHub](https://github.com/lm-sys/FastChat) 上提交问题
+- 在 [HuggingFace](https://huggingface.co/lmsys) 上下载我们的数据集和模型
 
-## Acknowledgment
-We thank [SkyPilot](https://github.com/skypilot-org/skypilot) and [Gradio](https://github.com/gradio-app/gradio) team for their system support.
-We also thank [UC Berkeley SkyLab](https://sky.cs.berkeley.edu/), [Kaggle](https://www.kaggle.com/), [MBZUAI](https://mbzuai.ac.ae/), [a16z](https://www.a16z.com/), [Together AI](https://www.together.ai/), [Hyperbolic](https://hyperbolic.xyz/), [RunPod](https://runpod.io), [Anyscale](https://www.anyscale.com/), [HuggingFace](https://huggingface.co/) for their generous sponsorship. Learn more about partnership [here](https://lmsys.org/donations/).
+## 致谢
+我们感谢 [SkyPilot](https://github.com/skypilot-org/skypilot) 和 [Gradio](https://github.com/gradio-app/gradio) 团队的系统支持。我们还要感谢 [加州大学伯克利分校 SkyLab](https://sky.cs.berkeley.edu/), [Kaggle](https://www.kaggle.com/), [MBZUAI](https://mbzuai.ac.ae/), [a16z](https://www.a16z.com/), [Together AI](https://www.together.ai/), [Hyperbolic](https://hyperbolic.xyz/), [RunPod](https://runpod.io), [Anyscale](https://www.anyscale.com/), [HuggingFace](https://huggingface.co/) 的慷慨赞助。在[这里](https://lmsys.org/donations/)了解更多关于合作的信息。
 
 <div class="sponsor-image-about">
     <img src="https://storage.googleapis.com/public-arena-asset/skylab.png" alt="SkyLab">
@@ -809,16 +848,16 @@ We also thank [UC Berkeley SkyLab](https://sky.cs.berkeley.edu/), [Kaggle](https
 def build_single_model_ui(models, add_promotion_links=False):
     promotion = (
         """
-[Blog](https://lmsys.org/blog/2023-05-03-arena/) | [GitHub](https://github.com/lm-sys/FastChat) | [Paper](https://arxiv.org/abs/2403.04132) | [Dataset](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md) | [Twitter](https://twitter.com/lmsysorg) | [Discord](https://discord.gg/HSWAKCrnFx) | [Kaggle Competition](https://www.kaggle.com/competitions/lmsys-chatbot-arena)
+[博客](https://lmsys.org/blog/2023-05-03-arena/) | [GitHub](https://github.com/lm-sys/FastChat) | [Paper](https://arxiv.org/abs/2403.04132) | [Dataset](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md) | [Twitter](https://twitter.com/lmsysorg) | [Discord](https://discord.gg/HSWAKCrnFx) | [Kaggle Competition](https://www.kaggle.com/competitions/lmsys-chatbot-arena)
 
-## 👇 Choose any model to chat
+## 👇 选择任意模型开始聊天
 """
         if add_promotion_links
         else ""
     )
 
     notice_markdown = f"""
-# 🏔️ Chat with Large Language Models
+# 🏔️ 与大型语言模型聊天
 {promotion}
 """
 
@@ -833,10 +872,11 @@ def build_single_model_ui(models, add_promotion_links=False):
                 interactive=True,
                 show_label=False,
                 container=False,
+                label="选择模型"  # 添加标签
             )
         with gr.Row():
             with gr.Accordion(
-                f"🔍 Expand to see the descriptions of {len(models)} models",
+                f"🔍 展开查看 {len(models)} 个模型的描述",
                 open=False,
             ):
                 model_description_md = get_model_description_md(models)
@@ -844,33 +884,33 @@ def build_single_model_ui(models, add_promotion_links=False):
 
         chatbot = gr.Chatbot(
             elem_id="chatbot",
-            label="Scroll down and start chatting",
+            label="向下滚动并开始聊天",
             height=650,
             show_copy_button=True,
         )
     with gr.Row():
         textbox = gr.Textbox(
             show_label=False,
-            placeholder="👉 Enter your prompt and press ENTER",
+            placeholder="👉 输入您的问题并按回车",
             elem_id="input_box",
         )
-        send_btn = gr.Button(value="Send", variant="primary", scale=0)
+        send_btn = gr.Button(value="发送", variant="primary", scale=0)
 
     with gr.Row() as button_row:
-        upvote_btn = gr.Button(value="👍  Upvote", interactive=False)
-        downvote_btn = gr.Button(value="👎  Downvote", interactive=False)
-        flag_btn = gr.Button(value="⚠️  Flag", interactive=False)
-        regenerate_btn = gr.Button(value="🔄  Regenerate", interactive=False)
-        clear_btn = gr.Button(value="🗑️  Clear history", interactive=False)
+        upvote_btn = gr.Button(value="👍 赞同", interactive=False)
+        downvote_btn = gr.Button(value="👎 反对", interactive=False)
+        flag_btn = gr.Button(value="⚠️ 标记", interactive=False)
+        regenerate_btn = gr.Button(value="🔄 重新生成", interactive=False)
+        clear_btn = gr.Button(value="🗑️ 清除历史", interactive=False)
 
-    with gr.Accordion("Parameters", open=False) as parameter_row:
+    with gr.Accordion("参数设置", open=False) as parameter_row:
         temperature = gr.Slider(
             minimum=0.0,
             maximum=1.0,
             value=0.7,
             step=0.1,
             interactive=True,
-            label="Temperature",
+            label="温度",
         )
         top_p = gr.Slider(
             minimum=0.0,
@@ -886,7 +926,7 @@ def build_single_model_ui(models, add_promotion_links=False):
             value=1024,
             step=64,
             interactive=True,
-            label="Max output tokens",
+            label="最大输出字符数",
         )
 
     if add_promotion_links:
@@ -942,7 +982,7 @@ def build_single_model_ui(models, add_promotion_links=False):
 
 def build_demo(models):
     with gr.Blocks(
-        title="Chat with Open Large Language Models",
+        title="与开放大型语言模型聊天",
         theme=gr.themes.Default(),
         css=block_css,
     ) as demo:

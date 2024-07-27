@@ -108,30 +108,30 @@ def build_demo(models, vl_models, elo_results_file, leaderboard_table_file):
         load_js = get_window_url_params_js
 
     head_js = """
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-"""
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    """
     if args.ga_id is not None:
         head_js += f"""
-<script async src="https://www.googletagmanager.com/gtag/js?id={args.ga_id}"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){{dataLayer.push(arguments);}}
-gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id={args.ga_id}"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
 
-gtag('config', '{args.ga_id}');
-window.__gradio_mode__ = "app";
-</script>
-        """
+    gtag('config', '{args.ga_id}');
+    window.__gradio_mode__ = "app";
+    </script>
+    """
     text_size = gr.themes.sizes.text_lg
     with gr.Blocks(
-        title="Chat with Open Large Language Models",
+        title="与开放大语言模型对话",
         theme=gr.themes.Default(text_size=text_size),
         css=block_css,
         head=head_js,
     ) as demo:
         with gr.Tabs() as inner_tabs:
             if args.vision_arena:
-                with gr.Tab("⚔️ Arena (battle)", id=0) as arena_tab:
+                with gr.Tab("⚔️ 视觉竞技场", id=0) as arena_tab:
                     arena_tab.select(None, None, None, js=load_js)
                     side_by_side_anony_list = build_side_by_side_vision_ui_anony(
                         all_models,
@@ -139,15 +139,15 @@ window.__gradio_mode__ = "app";
                         random_questions=args.random_questions,
                     )
             else:
-                with gr.Tab("⚔️ Arena (battle)", id=0) as arena_tab:
+                with gr.Tab("⚔️ 语言竞技场", id=0) as arena_tab:
                     arena_tab.select(None, None, None, js=load_js)
                     side_by_side_anony_list = build_side_by_side_ui_anony(models)
 
-            with gr.Tab("⚔️ Arena (side-by-side)", id=2) as side_by_side_tab:
+            with gr.Tab("🔍 模型对比", id=2) as side_by_side_tab:
                 side_by_side_tab.select(None, None, None, js=alert_js)
                 side_by_side_named_list = build_side_by_side_ui_named(models)
 
-            with gr.Tab("💬 Direct Chat", id=3) as direct_tab:
+            with gr.Tab("💬 直接对话", id=3) as direct_tab:
                 direct_tab.select(None, None, None, js=alert_js)
                 single_model_list = build_single_model_ui(
                     models, add_promotion_links=True
@@ -161,18 +161,18 @@ window.__gradio_mode__ = "app";
             )
 
             if elo_results_file:
-                with gr.Tab("🏆 Leaderboard", id=4):
+                with gr.Tab("🏆 排行榜", id=4):
                     build_leaderboard_tab(
                         elo_results_file, leaderboard_table_file, show_plot=True
                     )
 
-            with gr.Tab("ℹ️ About Us", id=5):
+            with gr.Tab("ℹ️ 关于我们", id=5):
                 about = build_about()
 
         url_params = gr.JSON(visible=False)
 
         if args.model_list_mode not in ["once", "reload"]:
-            raise ValueError(f"Unknown model list mode: {args.model_list_mode}")
+            raise ValueError(f"未知的模型列表模式: {args.model_list_mode}")
 
         demo.load(
             load_demo,
@@ -186,86 +186,94 @@ window.__gradio_mode__ = "app";
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--host", type=str, default="0.0.0.0")
-    parser.add_argument("--port", type=int)
+    parser.add_argument("--host", type=str, default="0.0.0.0", help="服务器主机地址")
+    parser.add_argument("--port", type=int, help="服务器端口号")
     parser.add_argument(
         "--share",
         action="store_true",
-        help="Whether to generate a public, shareable link",
+        help="是否生成一个公开的可分享链接",
     )
     parser.add_argument(
         "--controller-url",
         type=str,
         default="http://localhost:21001",
-        help="The address of the controller",
+        help="控制器的地址",
     )
     parser.add_argument(
         "--concurrency-count",
         type=int,
         default=10,
-        help="The concurrency count of the gradio queue",
+        help="Gradio队列的并发数",
     )
     parser.add_argument(
         "--model-list-mode",
         type=str,
         default="once",
         choices=["once", "reload"],
-        help="Whether to load the model list once or reload the model list every time.",
+        help="是否只加载一次模型列表或每次都重新加载",
     )
     parser.add_argument(
         "--moderate",
         action="store_true",
-        help="Enable content moderation to block unsafe inputs",
+        help="启用内容审核以阻止不安全的输入",
     )
     parser.add_argument(
         "--show-terms-of-use",
         action="store_true",
-        help="Shows term of use before loading the demo",
+        help="在加载演示之前显示使用条款",
     )
     parser.add_argument(
-        "--vision-arena", action="store_true", help="Show tabs for vision arena."
+        "--vision-arena", 
+        action="store_true", 
+        help="显示视觉竞技场的标签页"
     )
     parser.add_argument(
-        "--random-questions", type=str, help="Load random questions from a JSON file"
+        "--random-questions", 
+        type=str, 
+        help="从JSON文件加载随机问题"
     )
     parser.add_argument(
         "--register-api-endpoint-file",
         type=str,
-        help="Register API-based model endpoints from a JSON file",
+        help="从JSON文件注册基于API的模型端点",
     )
     parser.add_argument(
         "--gradio-auth-path",
         type=str,
-        help='Set the gradio authentication file path. The file should contain one or more user:password pairs in this format: "u1:p1,u2:p2,u3:p3"',
+        help='设置Gradio认证文件路径。文件应包含一个或多个用户:密码对，格式为："用户1:密码1,用户2:密码2,用户3:密码3"',
         default=None,
     )
     parser.add_argument(
-        "--elo-results-file", type=str, help="Load leaderboard results and plots"
+        "--elo-results-file", 
+        type=str, 
+        help="加载ELO排行榜结果和图表"
     )
     parser.add_argument(
-        "--leaderboard-table-file", type=str, help="Load leaderboard results and plots"
+        "--leaderboard-table-file", 
+        type=str, 
+        help="加载排行榜结果和图表"
     )
     parser.add_argument(
         "--gradio-root-path",
         type=str,
-        help="Sets the gradio root path, eg /abc/def. Useful when running behind a reverse-proxy or at a custom URL path prefix",
+        help="设置Gradio根路径，例如 /abc/def。在反向代理后面运行或在自定义URL路径前缀下运行时很有用",
     )
     parser.add_argument(
         "--ga-id",
         type=str,
-        help="the Google Analytics ID",
+        help="Google Analytics ID",
         default=None,
     )
     parser.add_argument(
         "--use-remote-storage",
         action="store_true",
         default=False,
-        help="Uploads image files to google cloud storage if set to true",
+        help="如果设置为true，则将图像文件上传到Google Cloud Storage",
     )
     parser.add_argument(
         "--password",
         type=str,
-        help="Set the password for the gradio web server",
+        help="设置Gradio网页服务器的密码",
     )
     args = parser.parse_args()
     logger.info(f"args: {args}")

@@ -413,21 +413,21 @@ def bot_response_multi(
 
 def build_side_by_side_ui_anony(models):
     notice_markdown = """
-# ⚔️  LMSYS Chatbot Arena: Benchmarking LLMs in the Wild
-[Blog](https://lmsys.org/blog/2023-05-03-arena/) | [GitHub](https://github.com/lm-sys/FastChat) | [Paper](https://arxiv.org/abs/2403.04132) | [Dataset](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md) | [Twitter](https://twitter.com/lmsysorg) | [Discord](https://discord.gg/HSWAKCrnFx) | [Kaggle Competition](https://www.kaggle.com/competitions/lmsys-chatbot-arena)
+# ⚔️  LMSYS 聊天机器人竞技场: 野外环境下对LLM进行基准测试
+[博客](https://lmsys.org/blog/2023-05-03-arena/) | [GitHub](https://github.com/lm-sys/FastChat) | [论文](https://arxiv.org/abs/2403.04132) | [数据集](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md) | [Twitter](https://twitter.com/lmsysorg) | [Discord](https://discord.gg/HSWAKCrnFx) | [Kaggle 竞赛](https://www.kaggle.com/competitions/lmsys-chatbot-arena)
 
-## 📣 News
-- Chatbot Arena now supports images in beta. Check it out [here](https://chat.lmsys.org/?vision).
+## 📣 新闻
+- 聊天机器人竞技场现在支持图像功能(测试版)。在[这里](https://chat.lmsys.org/?vision)查看。
 
-## 📜 Rules
-- Ask any question to two anonymous models (e.g., ChatGPT, Gemini, Claude, Llama) and vote for the better one!
-- You can chat for multiple turns until you identify a winner.
-- Votes won't be counted if model identities are revealed during the conversation.
+## 📜 规则
+- 向两个匿名模型(如ChatGPT、Gemini、Claude、Llama)提出任何问题,并为更好的一个投票!
+- 您可以进行多轮对话直到确定赢家。
+- 如果在对话过程中透露了模型身份,投票将不被计入。
 
-## 🏆 Chatbot Arena [Leaderboard](https://leaderboard.lmsys.org)
-- We've collected **1,000,000+** human votes to compute an LLM leaderboard for 100+ models. Find out who is the 🥇LLM Champion [here](https://leaderboard.lmsys.org)!
+## 🏆 聊天机器人竞技场 [排行榜](https://leaderboard.lmsys.org)
+- 我们已收集**1,000,000+**人类投票,为100多个模型计算LLM排行榜。在[这里](https://leaderboard.lmsys.org)查看谁是🥇LLM冠军!
 
-## 👇 Chat now!
+## 👇 现在开始聊天!
 """
 
     states = [gr.State() for _ in range(num_sides)]
@@ -437,9 +437,7 @@ def build_side_by_side_ui_anony(models):
     gr.Markdown(notice_markdown, elem_id="notice_markdown")
 
     with gr.Group(elem_id="share-region-anony"):
-        with gr.Accordion(
-            f"🔍 Expand to see the descriptions of {len(models)} models", open=False
-        ):
+        with gr.Accordion(f"🔍 展开查看{len(models)}个模型的描述", open=False):
             model_description_md = get_model_description_md(models)
             gr.Markdown(model_description_md, elem_id="model_description_markdown")
         with gr.Row():
@@ -463,31 +461,26 @@ def build_side_by_side_ui_anony(models):
             slow_warning = gr.Markdown("")
 
     with gr.Row():
-        leftvote_btn = gr.Button(
-            value="👈  A is better", visible=False, interactive=False
-        )
-        rightvote_btn = gr.Button(
-            value="👉  B is better", visible=False, interactive=False
-        )
-        tie_btn = gr.Button(value="🤝  Tie", visible=False, interactive=False)
-        bothbad_btn = gr.Button(
-            value="👎  Both are bad", visible=False, interactive=False
-        )
+        leftvote_btn = gr.Button(value="👈  A更好", visible=False, interactive=False)
+        rightvote_btn = gr.Button(value="👉  B更好", visible=False, interactive=False)
+        tie_btn = gr.Button(value="🤝  平局", visible=False, interactive=False)
+        bothbad_btn = gr.Button(value="👎  都不好", visible=False, interactive=False)
 
     with gr.Row():
         textbox = gr.Textbox(
             show_label=False,
-            placeholder="👉 Enter your prompt and press ENTER",
+            placeholder="👉 输入您的提示并按回车",
             elem_id="input_box",
         )
-        send_btn = gr.Button(value="Send", variant="primary", scale=0)
+        send_btn = gr.Button(value="发送", variant="primary", scale=0)
 
     with gr.Row() as button_row:
-        clear_btn = gr.Button(value="🎲 New Round", interactive=False)
-        regenerate_btn = gr.Button(value="🔄  Regenerate", interactive=False)
-        share_btn = gr.Button(value="📷  Share")
 
-    with gr.Accordion("Parameters", open=False, visible=False) as parameter_row:
+        clear_btn = gr.Button(value="🎲 新一轮", interactive=False)
+        regenerate_btn = gr.Button(value="🔄  重新生成", interactive=False)
+        share_btn = gr.Button(value="📷  分享")
+
+    with gr.Accordion("参数", open=False, visible=False) as parameter_row:
         temperature = gr.Slider(
             minimum=0.0,
             maximum=1.0,

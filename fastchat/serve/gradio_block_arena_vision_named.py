@@ -248,18 +248,18 @@ def add_text(
 
 def build_side_by_side_vision_ui_named(models, random_questions=None):
     notice_markdown = """
-# ⚔️  LMSYS Chatbot Arena (Multimodal): Benchmarking LLMs and VLMs in the Wild
-[Blog](https://lmsys.org/blog/2023-05-03-arena/) | [GitHub](https://github.com/lm-sys/FastChat) | [Paper](https://arxiv.org/abs/2403.04132) | [Dataset](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md) | [Twitter](https://twitter.com/lmsysorg) | [Discord](https://discord.gg/HSWAKCrnFx)
+# ⚔️  LMSYS 聊天机器人竞技场(多模态): 现实环境下对LLM和VLM进行基准测试
+[博客](https://lmsys.org/blog/2023-05-03-arena/) | [GitHub](https://github.com/lm-sys/FastChat) | [论文](https://arxiv.org/abs/2403.04132) | [数据集](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md) | [Twitter](https://twitter.com/lmsysorg) | [Discord](https://discord.gg/HSWAKCrnFx)
 
-## 📜 Rules
-- Chat with any two models side-by-side and vote!
-- You can continue chatting for multiple rounds.
-- Click "Clear history" to start a new round.
-- You can only chat with <span style='color: #DE3163; font-weight: bold'>one image per conversation</span>. You can upload images less than 15MB. Click the "Random Example" button to chat with a random image.
+## 📜 规则
+- 与任意两个模型并排聊天并投票!
+- 您可以继续多轮对话。
+- 点击"清除历史"开始新的一轮。
+- 每次对话您只能与<span style='color: #DE3163; font-weight: bold'>一张图片</span>进行交互。您可以上传小于15MB的图片。点击"随机示例"按钮与随机图片进行对话。
 
-**❗️ For research purposes, we log user prompts and images, and may release this data to the public in the future. Please do not upload any confidential or personal information.**
+**❗️ 出于研究目的，我们会记录用户的提示和图像，并可能在将来公开这些数据。请不要上传任何机密或个人信息。**
 
-## 🤖 Choose two models to compare
+## 🤖 选择两个模型进行比较
 """
 
     states = [gr.State() for _ in range(num_sides)]
@@ -279,7 +279,7 @@ def build_side_by_side_vision_ui_named(models, random_questions=None):
         with gr.Column(scale=5):
             with gr.Group(elem_id="share-region-anony"):
                 with gr.Accordion(
-                    f"🔍 Expand to see the descriptions of {len(models)} models",
+                    f"🔍 展开查看{len(models)}个模型的描述",
                     open=False,
                 ):
                     model_description_md = get_model_description_md(models)
@@ -310,35 +310,30 @@ def build_side_by_side_vision_ui_named(models, random_questions=None):
                             )
 
     with gr.Row():
-        leftvote_btn = gr.Button(
-            value="👈  A is better", visible=False, interactive=False
-        )
-        rightvote_btn = gr.Button(
-            value="👉  B is better", visible=False, interactive=False
-        )
-        tie_btn = gr.Button(value="🤝  Tie", visible=False, interactive=False)
-        bothbad_btn = gr.Button(
-            value="👎  Both are bad", visible=False, interactive=False
-        )
+       
+        leftvote_btn = gr.Button(value="👈  A更好", visible=False, interactive=False)
+        rightvote_btn = gr.Button(value="👉  B更好", visible=False, interactive=False)
+        tie_btn = gr.Button(value="🤝  平局", visible=False, interactive=False)
+        bothbad_btn = gr.Button(value="👎  都不好", visible=False, interactive=False)
 
     with gr.Row():
         textbox = gr.MultimodalTextbox(
             file_types=["image"],
             show_label=False,
-            placeholder="Enter your prompt or add image here",
+            placeholder="在此输入您的提示或添加图片",
             container=True,
             elem_id="input_box",
-        )
+                )
 
     with gr.Row() as button_row:
         if random_questions:
             global vqa_samples
             with open(random_questions, "r") as f:
                 vqa_samples = json.load(f)
-            random_btn = gr.Button(value="🎲 Random Example", interactive=True)
-        clear_btn = gr.Button(value="🗑️  Clear history", interactive=False)
-        regenerate_btn = gr.Button(value="🔄  Regenerate", interactive=False)
-        share_btn = gr.Button(value="📷  Share")
+            random_btn = gr.Button(value="🎲 随机示例", interactive=True)
+        clear_btn = gr.Button(value="🗑️  清除历史", interactive=False)
+        regenerate_btn = gr.Button(value="🔄  重新生成", interactive=False)
+        share_btn = gr.Button(value="📷  分享")
 
     with gr.Accordion("Parameters", open=False) as parameter_row:
         temperature = gr.Slider(

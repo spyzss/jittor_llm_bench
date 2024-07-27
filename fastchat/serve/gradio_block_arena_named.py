@@ -307,15 +307,15 @@ def flash_buttons():
 
 def build_side_by_side_ui_named(models):
     notice_markdown = """
-# ⚔️  LMSYS Chatbot Arena: Benchmarking LLMs in the Wild
-[Blog](https://lmsys.org/blog/2023-05-03-arena/) | [GitHub](https://github.com/lm-sys/FastChat) | [Paper](https://arxiv.org/abs/2403.04132) | [Dataset](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md) | [Twitter](https://twitter.com/lmsysorg) | [Discord](https://discord.gg/HSWAKCrnFx) | [Kaggle Competition](https://www.kaggle.com/competitions/lmsys-chatbot-arena)
+# ⚔️  LMSYS 聊天机器人竞技场: 现实环境下对LLM进行基准测试
+[博客](https://lmsys.org/blog/2023-05-03-arena/) | [GitHub](https://github.com/lm-sys/FastChat) | [论文](https://arxiv.org/abs/2403.04132) | [数据集](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md) | [Twitter](https://twitter.com/lmsysorg) | [Discord](https://discord.gg/HSWAKCrnFx) | [Kaggle 竞赛](https://www.kaggle.com/competitions/lmsys-chatbot-arena)
 
 
-## 📜 Rules
-- Ask any question to two chosen models (e.g., ChatGPT, Gemini, Claude, Llama) and vote for the better one!
-- You can chat for multiple turns until you identify a winner.
+## 📜 规则
+- 向两个选定的模型(如ChatGPT、Gemini、Claude、Llama)提出任何问题,并为更好的一个投票!
+- 您可以进行多轮对话直到确定赢家。
 
-## 👇 Choose two models to compare
+## 👇 选择两个模型进行比较
 """
 
     states = [gr.State() for _ in range(num_sides)]
@@ -336,9 +336,7 @@ def build_side_by_side_ui_named(models):
                         container=False,
                     )
         with gr.Row():
-            with gr.Accordion(
-                f"🔍 Expand to see the descriptions of {len(models)} models", open=False
-            ):
+            with gr.Accordion(f"🔍 展开查看{len(models)}个模型的描述", open=False):
                 model_description_md = get_model_description_md(models)
                 gr.Markdown(model_description_md, elem_id="model_description_markdown")
 
@@ -354,31 +352,24 @@ def build_side_by_side_ui_named(models):
                     )
 
     with gr.Row():
-        leftvote_btn = gr.Button(
-            value="👈  A is better", visible=False, interactive=False
-        )
-        rightvote_btn = gr.Button(
-            value="👉  B is better", visible=False, interactive=False
-        )
-        tie_btn = gr.Button(value="🤝  Tie", visible=False, interactive=False)
-        bothbad_btn = gr.Button(
-            value="👎  Both are bad", visible=False, interactive=False
-        )
+        leftvote_btn = gr.Button(value="👈  A更好", visible=False, interactive=False)
+        rightvote_btn = gr.Button(value="👉  B更好", visible=False, interactive=False)
+        tie_btn = gr.Button(value="🤝  平局", visible=False, interactive=False)
+        bothbad_btn = gr.Button(value="👎  都不好", visible=False, interactive=False)
 
     with gr.Row():
         textbox = gr.Textbox(
             show_label=False,
-            placeholder="👉 Enter your prompt and press ENTER",
+            placeholder="👉 输入您的提示并按回车",
             elem_id="input_box",
         )
-        send_btn = gr.Button(value="Send", variant="primary", scale=0)
+        send_btn = gr.Button(value="发送", variant="primary", scale=0)
 
     with gr.Row() as button_row:
-        clear_btn = gr.Button(value="🗑️  Clear history", interactive=False)
-        regenerate_btn = gr.Button(value="🔄  Regenerate", interactive=False)
-        share_btn = gr.Button(value="📷  Share")
-
-    with gr.Accordion("Parameters", open=False) as parameter_row:
+        clear_btn = gr.Button(value="🗑️  清除历史", interactive=False)
+        regenerate_btn = gr.Button(value="🔄  重新生成", interactive=False)
+        share_btn = gr.Button(value="📷  分享")
+    with gr.Accordion("参数", open=False) as parameter_row:
         temperature = gr.Slider(
             minimum=0.0,
             maximum=1.0,

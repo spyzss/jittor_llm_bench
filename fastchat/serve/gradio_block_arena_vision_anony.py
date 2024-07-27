@@ -155,9 +155,7 @@ def vote_last_response(states, vote_type, model_selectors, request: gr.Request):
         fout.write(json.dumps(data) + "\n")
     get_remote_logger().log(data)
 
-    gr.Info(
-        "🎉 Thanks for voting! Your vote shapes the leaderboard, please vote RESPONSIBLY."
-    )
+    gr.Info("🎉 感谢您的投票! 您的投票将影响排行榜,请负责任地投票。")
     if ":" not in model_selectors[0]:
         for i in range(5):
             names = (
@@ -374,20 +372,20 @@ def add_text(
 
 def build_side_by_side_vision_ui_anony(text_models, vl_models, random_questions=None):
     notice_markdown = """
-# ⚔️  LMSYS Chatbot Arena (Multimodal): Benchmarking LLMs and VLMs in the Wild
-[Blog](https://lmsys.org/blog/2023-05-03-arena/) | [GitHub](https://github.com/lm-sys/FastChat) | [Paper](https://arxiv.org/abs/2403.04132) | [Dataset](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md) | [Twitter](https://twitter.com/lmsysorg) | [Discord](https://discord.gg/HSWAKCrnFx) | [Kaggle Competition](https://www.kaggle.com/competitions/lmsys-chatbot-arena)
+# ⚔️  LMSYS 聊天机器人竞技场(多模态): 现实环境下对LLM和VLM进行基准测试
+[博客](https://lmsys.org/blog/2023-05-03-arena/) | [GitHub](https://github.com/lm-sys/FastChat) | [论文](https://arxiv.org/abs/2403.04132) | [数据集](https://github.com/lm-sys/FastChat/blob/main/docs/dataset_release.md) | [Twitter](https://twitter.com/lmsysorg) | [Discord](https://discord.gg/HSWAKCrnFx) | [Kaggle 竞赛](https://www.kaggle.com/competitions/lmsys-chatbot-arena)
 
 
-## 📜 Rules
-- Ask any question to two anonymous models (e.g., ChatGPT, Gemini, Claude, Llama) and vote for the better one!
-- You can continue chatting until you identify a winner.
-- Vote won't be counted if model identity is revealed during conversation.
-- **NEW** Image Support: <span style='color: #DE3163; font-weight: bold'>Upload an image</span> on your first turn to unlock the multimodal arena! Images should be less than 15MB.
+## 📜 规则
+- 向两个匿名模型(如ChatGPT、Gemini、Claude、Llama)提出任何问题,并为更好的一个投票!
+- 您可以继续聊天直到确定赢家。
+- 如果在对话过程中透露了模型身份,投票将不被计入。
+- **新功能** 图像支持: <span style='color: #DE3163; font-weight: bold'>在第一轮上传图像</span>即可解锁多模态竞技场! 图像应小于15MB。
 
-## 🏆 Chatbot Arena [Leaderboard](https://leaderboard.lmsys.org)
-- We've collected **1,000,000+** human votes to compute an LLM Elo leaderboard for 100+ models. Find out who is the 🥇LLM Champion [here](https://leaderboard.lmsys.org)!
+## 🏆 聊天机器人竞技场 [排行榜](https://leaderboard.lmsys.org)
+- 我们已收集**1,000,000+**人类投票,为100多个模型计算LLM Elo排行榜。在[这里](https://leaderboard.lmsys.org)查看谁是🥇LLM冠军!
 
-## 👇 Chat now!
+## 👇 现在开始聊天!
 """
 
     states = [gr.State() for _ in range(num_sides)]
@@ -438,21 +436,16 @@ def build_side_by_side_vision_ui_anony(text_models, vl_models, random_questions=
         slow_warning = gr.Markdown("", elem_id="notice_markdown")
 
     with gr.Row():
-        leftvote_btn = gr.Button(
-            value="👈  A is better", visible=False, interactive=False
-        )
-        rightvote_btn = gr.Button(
-            value="👉  B is better", visible=False, interactive=False
-        )
-        tie_btn = gr.Button(value="🤝  Tie", visible=False, interactive=False)
-        bothbad_btn = gr.Button(
-            value="👎  Both are bad", visible=False, interactive=False
-        )
+        leftvote_btn = gr.Button(value="👈  A更好", visible=False, interactive=False)
+        rightvote_btn = gr.Button(value="👉  B更好", visible=False, interactive=False)
+        tie_btn = gr.Button(value="🤝  平局", visible=False, interactive=False)
+        bothbad_btn = gr.Button(value="👎  都不好", visible=False, interactive=False)
+
 
     with gr.Row():
         textbox = gr.Textbox(
             show_label=False,
-            placeholder="👉 Enter your prompt and press ENTER",
+            placeholder="👉 输入您的提示并按回车",
             elem_id="input_box",
             visible=False,
         )
@@ -461,7 +454,7 @@ def build_side_by_side_vision_ui_anony(text_models, vl_models, random_questions=
             file_types=["image"],
             show_label=False,
             container=True,
-            placeholder="Enter your prompt or add image here",
+            placeholder="在此输入您的提示或添加图片",
             elem_id="input_box",
         )
         # send_btn = gr.Button(value="Send", variant="primary", scale=0)
@@ -471,10 +464,11 @@ def build_side_by_side_vision_ui_anony(text_models, vl_models, random_questions=
             global vqa_samples
             with open(random_questions, "r") as f:
                 vqa_samples = json.load(f)
-            random_btn = gr.Button(value="🔮 Random Image", interactive=True)
-        clear_btn = gr.Button(value="🎲 New Round", interactive=False)
-        regenerate_btn = gr.Button(value="🔄  Regenerate", interactive=False)
-        share_btn = gr.Button(value="📷  Share")
+
+            random_btn = gr.Button(value="🔮 随机图片", interactive=True)
+        clear_btn = gr.Button(value="🎲 新一轮", interactive=False)
+        regenerate_btn = gr.Button(value="🔄  重新生成", interactive=False)
+        share_btn = gr.Button(value="📷  分享")
 
     with gr.Accordion("Parameters", open=False, visible=False) as parameter_row:
         temperature = gr.Slider(
